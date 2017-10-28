@@ -6,6 +6,10 @@ require('dotenv').config();
 // const db = new Sequelize('postgres://'+process.env.USERNAME+':'+process.env.PASSWORD+'@'+process.env.RDS_ENDPOINT+'/'+process.env.USERNAME);
 const db = new Sequelize(key.TEST_DB_URL);
 
+<<<<<<< HEAD
+=======
+// const db = new Sequelize('postgres://'+key.username+':'+key.password+'@'+key.rds_endpoint+'/'+key.username);
+>>>>>>> Change db url.
 
 db.authenticate()
 .then(() => {
