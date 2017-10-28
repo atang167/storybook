@@ -11,8 +11,13 @@ const Chatroom = require('./db/models/chatroom');
 const Messages = require('./db/models/messages');
 const Friendships = require('./db/models/friendship');
 
+<<<<<<< HEAD
 const router = require('./router');
 const PORT = process.env.PORT || 3000;
+=======
+// const router = require('./router')
+const PORT = 3000;
+>>>>>>> Fix routes between front end views.
 
 const app = express();
 const server = http.createServer(app);
@@ -22,9 +27,14 @@ const io = socketIo(server);
 
 app.use(parser.json())
 app.use(parser.urlencoded({extended: true}))
+<<<<<<< HEAD
 app.use(cors());
 app.use('/api', router)
 // app.use(express.static(path.resolve(__dirname, '../client/public')))
+=======
+// app.use('/api', router)
+app.use(express.static(path.resolve(__dirname, '../client/public')))
+>>>>>>> Fix routes between front end views.
 
 app.get('/*', function (req, res) {
   res.send(404, 'SERVER ONLY');
@@ -34,21 +44,21 @@ io.on('connection', socket => {
   socket.on('message', message => {
     // console.log('server received message ', io.engine.clientsCount);
     // console.log('this is the message room', message);
-    socket.broadcast.to(message.roomId.toString()).emit('message', {
+    socket.broadcast.to(message.roomIid.emit('message', {
       message: message.message,
-      sender: message.userId,
-      room_id: message.roomId
-    })
-    db.Messages.create(message);
+      sender: message.sender,
+      room_id: parseInt(message.roomId)
+    }))
+    // db.Messages.create(message);
   })
   socket.on('subscribe', roomId => {
     // console.log('joining room', room);
     socket.join(roomId);
-    let messages = db.Messages.findAll({
-      where: {room_id: roomId},
-      order: [[ 'createdAt', 'DESC' ]]
-    });
-    socket.emit('message', messages);
+    // let messages = db.Messages.findAll({
+    //   where: {room_id: parseInt(roomId)},
+    //   order: [[ 'createdAt', 'DESC' ]]
+    // });
+    // socket.emit('message', messages);
   })
   console.log('user connected', io.engine.clientsCount)
 })
