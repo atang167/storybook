@@ -27,6 +27,7 @@ class Chat extends Component {
 
   componentWillUnmount() {
     //disconnect from socket
+    //clear room in store?
   }
 
   handleSubmit(input) {
@@ -64,8 +65,7 @@ class Chat extends Component {
 
 const chatStore = (store) => {
   return {
-    room: store.Chat.currentRoom,
-    // userId: store.Auth.userId
+    roomId: store.Chat.currentRoom,
   }
 }
 
