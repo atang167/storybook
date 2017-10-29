@@ -6,6 +6,7 @@ import Chat from './views/Messages/Chat'
 import UserMap from './views/map.js'
 import PicturesFromMarker from './views/picturesFromMarker'
 import FriendRequests from './views/Friends/FriendRequests'
+import NewChat from './views/Messages/NewChat'
 
 const routeConfig = {
   Profile: { screen: Profile},
@@ -14,7 +15,8 @@ const routeConfig = {
   Chat: { screen: Chat },
   UserMap: { screen: UserMap },
   FriendRequests: {screen: FriendRequests},
-  PicturesFromMarker: { screen: PicturesFromMarker}
+  PicturesFromMarker: { screen: PicturesFromMarker},
+  NewChat: {screen: NewChat}
 }
 // going to disable the header for now
 const stackNavigatorConfig = {
