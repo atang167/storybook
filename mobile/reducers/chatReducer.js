@@ -1,5 +1,6 @@
 const initialState = {
-  currentRoom: ''
+  currentRoom: '',
+  rooms: [],
 }
 
 const chatReducer = (state=initialState, action) => {
@@ -12,6 +13,16 @@ const chatReducer = (state=initialState, action) => {
     case 'EXIT_ROOM': {
       return Object.assign({}, state, {
         currentRoom: '',
+      })
+    }
+    case 'GET_ALL_ROOMS': {
+      return Object.assign({}, state, {
+        rooms: action.payload,
+      })
+    }
+    case 'ROOM_LIST_FAIL': {
+      return Object.assign({}, state, {
+        err: action.payload,
       })
     }
     default: {
