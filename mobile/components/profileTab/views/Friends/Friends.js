@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { View, Button, TouchableWithoutFeedback } from 'react-native'
 import { connect } from 'react-redux'
+import { bindActionCreators} from 'redux'
 import axios from 'axios'
+
+import * as friendActions from '../../../../actions/friendActions'
 
 import { SearchBar } from 'react-native-elements'
 import FriendsEntry from './FriendsEntry'
@@ -9,27 +12,49 @@ import FriendsEntry from './FriendsEntry'
 class Friends extends Component {
   constructor(props) {
     super(props); 
+    // this.state = {
+    //   friends: [{id: 1, img: "", name: "Angie"}, {id: 2, img: "", name: "Jordan"}  ], 
+    //   results: [{id: 2, img: "", name: "Jeff"}, {id: 4, img: "", name: "Daniel"}],
+    //   input: ''
+    // }
     this.state = {
-      friends: [{id: 1, img: "", name: "Angie"}, {id: 2, img: "", name: "Jordan"}  ], 
-      results: [{id: 2, img: "", name: "Jeff"}, {id: 4, img: "", name: "Daniel"}],
+      results: [],
       input: ''
     }
   }
+
+  componentDidMount() {
+    // axios.get('api/friends/' + this.props.userId)
+    // .then(({ data }) => {
+    //   data.map(data => {
+    //     if (data.user_id !== this.props.userId) {
+    //       this.setState({ friends: this.state.friends.concat(data.user_id)})
+    //     }
+    //     if (data.friend_id !== this.props.userId) {
+    //       this.setState({ friends: this.state.friends.concat(data.friend_id)})
+    //     }
+    //   })
+    // })
+    // .catch(err => {
+    //   console.log('failed to retrieve friends', err);
+    // })
+    this.props.actions.getFriends(this.screenProps.userId);
+  }
   
-  searchFriends(firstName, lastName) {
-    axios.get('api/search/' + firstName + '/' + lastName)
-    .then(({ data }) => {
-      this.setState({results: data})
-    })
-    .catch(err => {
-      console.log('failed to search friends', err);
-    })
+  searchUsers(firstName, lastName) {
+    // axios.get('api/search/' + firstName + '/' + lastName)
+    // .then(({ data }) => {
+    //   this.setState({results: data})
+    // })
+    // .catch(err => {
+    //   console.log('failed to search friends', err);
+    // })
   }
 
   sendRequest(friendId) {
-    axios.post('/api/addFriend', {
+    axios.post('api/friend/request', {
       friendId: friendId,
-      userId: this.props.userId,
+      userId: this.screenProps.userId,
       type: 'pending'
     })
     .then(({ data }) => {
@@ -40,29 +65,8 @@ class Friends extends Component {
     })
   }
 
-  getRequests() {
-    
-  }
-
   clearSearch() {
     this.setState({results: []});
-  }
-
-  componentDidMount() {
-    axios.get('api/friends/' + this.props.userId)
-    .then(({ data }) => {
-      data.map(data => {
-        if (data.user_id !== this.props.userId) {
-          this.setState({ friends: this.state.friends.concat(data.user_id)})
-        }
-        if (data.friend_id !== this.props.userId) {
-          this.setState({ friends: this.state.friends.concat(data.friend_id)})
-        }
-      })
-    })
-    .catch(err => {
-      console.log('failed to retrieve friends', err);
-    })
   }
 
   render() {
@@ -95,7 +99,7 @@ class Friends extends Component {
               <TouchableWithoutFeedback>
                 <FriendsEntry 
                   sendRequest={this.sendRequest.bind(this)} 
-                  friends={this.state.friends} 
+                  friends={this.props.friends} 
                   id={result.id} 
                   img={result.profile_img_url} 
                   name={result.name}
@@ -126,7 +130,7 @@ class Friends extends Component {
             onPress={() => navigate('FriendRequests')}
             title="Go to friend requests"
           /> 
-          {this.state.friends.map(friend => {
+          {this.props.friends.map(friend => {
             return (
               <TouchableWithoutFeedback>
                 <FriendsEntry 
@@ -144,8 +148,14 @@ class Friends extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    userId: store.Auth.userId
+    friends: store.Friends.friends
    }
  }
 
-export default connect(mapStateToProps)(Friends);
+ const friendDispatch = (dispatch) => {
+   return {
+     actions: bindActionCreators(friendActions, dispatch),
+   }
+ }
+
+export default connect(Friends;
