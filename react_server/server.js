@@ -11,13 +11,8 @@ const Chatroom = require('./db/models/chatroom');
 const Messages = require('./db/models/messages');
 const Friendships = require('./db/models/friendship');
 
-<<<<<<< HEAD
 const router = require('./router');
 const PORT = process.env.PORT || 3000;
-=======
-// const router = require('./router')
-const PORT = 3000;
->>>>>>> Fix routes between front end views.
 
 const app = express();
 const server = http.createServer(app);
@@ -27,14 +22,9 @@ const io = socketIo(server);
 
 app.use(parser.json())
 app.use(parser.urlencoded({extended: true}))
-<<<<<<< HEAD
 app.use(cors());
 app.use('/api', router)
 // app.use(express.static(path.resolve(__dirname, '../client/public')))
-=======
-// app.use('/api', router)
-app.use(express.static(path.resolve(__dirname, '../client/public')))
->>>>>>> Fix routes between front end views.
 
 app.get('/*', function (req, res) {
   res.send(404, 'SERVER ONLY');
