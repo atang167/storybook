@@ -20,6 +20,7 @@ class ProfileNav extends Component {
             state: profileState
           })
         }
+        screenProps={this.props.userId}
       />
     )
   }
@@ -27,8 +28,9 @@ class ProfileNav extends Component {
 
 const mapStateToProps = (state) => {
   return {
-   profileState: state.Profile
-   }
- }
+    profileState: state.Profile,
+    userId: state.Auth.userId
+  }
+}
 
 export default connect(mapStateToProps)(ProfileNav)
