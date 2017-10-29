@@ -21,7 +21,7 @@ module.exports = {
         res.status(200).send(data);
       })
       .catch(err => {
-        console.log('Error getting friendslist: ', )
+        console.log('Error getting friendslist: ', err)
         res.status(400).send(err);
       })
   },
