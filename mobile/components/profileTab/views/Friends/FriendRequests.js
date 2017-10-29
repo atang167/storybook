@@ -9,12 +9,14 @@ class FriendRequests extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      requests: [{friend: "Daniel"}], 
+      // requests: [{friend: "Daniel"}], 
+      requests: []
     }
   }
   
   acceptRequest(friendId) {
-    axios.post('/acceptRequest', {
+    axios.post('/friend/request', {
+      userId: this.screenProps.userId,
       friendId: friendId
     })
     .then(({ data }) => {
@@ -35,23 +37,25 @@ class FriendRequests extends Component {
   // }
   
   componentDidMount() {
-    // axios.get('/requests/' + this.props.UserId) 
-    // .then(({ data }) => {
-    //   this.setState({requests: data})
-    // })
-    // .catch(err => {
-    //   console.log('error getting friend requests', err); 
-    // })
+    axios.get('/friend/request' + this.screenProps.UserId) 
+    .then(({ data }) => {
+      this.setState({requests: data})
+    })
+    .catch(err => {
+      console.log('error getting friend requests', err); 
+    })
   }
 
   render() {
     return ( 
       <View>
-        {this.state.requests.map((rqt) => {
-          console.log('inside map: ', rqt);
+        {this.state.requests.map((request) => {
+          console.log('inside map: ', request);
           return (
             <Request 
-              fnd={rqt.friend}
+              friendId={request.friend.id}
+              name={request.friend.name}
+              img={request.friend.profile_image_url}
             />
           )
         })}
@@ -59,5 +63,7 @@ class FriendRequests extends Component {
     )
   }
 }
+
+
 
 export default FriendRequests;
